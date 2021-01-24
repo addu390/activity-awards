@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
+import { Router, ActivatedRoute } from '@angular/router';
 import { HealthKit, HealthKitOptions } from '@ionic-native/health-kit/ngx'
 
 @Component({
@@ -12,6 +13,7 @@ export class HomePage {
 
   constructor(
     private platform: Platform,
+    private router: Router,
     private healthKit: HealthKit) {
 
       this.platform.ready().then(() => {
@@ -43,6 +45,14 @@ export class HomePage {
     }, error => {
       console.log('Error getting Step Count: ', error);
     });
+  }
+
+  register() {
+    this.router.navigate(['register'])
+  }
+
+  login() {
+    this.router.navigate(['login'])
   }
 
 }
