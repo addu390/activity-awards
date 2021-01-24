@@ -31,3 +31,4 @@ npm-debug.log*
 /www
 /ios
 */environment.ts
+src/environments/environment.ts
