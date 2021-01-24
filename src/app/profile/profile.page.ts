@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HealthKit, HealthKitOptions } from '@ionic-native/health-kit/ngx'
 import { Platform } from '@ionic/angular';
+import { Activity } from '../models/account/activity';
+
 
 
 @Component({
@@ -9,18 +11,24 @@ import { Platform } from '@ionic/angular';
   styleUrls: ['./profile.page.scss'],
 })
 export class ProfilePage implements OnInit {
-  stepCount = 'No Data'
-  workouts = [];
-  exerciseTime = 'No Data'
+  summaries = {}
 
-  constructor(private healthKit: HealthKit,
+  constructor(
+    private healthKit: HealthKit,
     private platform: Platform) {
-    
-      this.platform.ready().then(() => {
+   }
+
+  ngOnInit() {
+    this.platform.ready().then(() => {
       this.healthKit.available().then(available => {
         if (available) {
           var options: HealthKitOptions = {
-            readTypes: ['HKQuantityTypeIdentifierStepCount', 'HKQuantityTypeIdentifierAppleExerciseTime'],
+            readTypes: [
+              'HKQuantityTypeIdentifierStepCount', 
+              'HKQuantityTypeIdentifierAppleExerciseTime', 
+              'HKQuantityTypeIdentifierActiveEnergyBurned',
+              'HKQuantityTypeIdentifierAppleStandTime'
+              ],
             writeTypes: []
           }
           this.healthKit.requestAuthorization(options).then(allow => {
@@ -29,43 +37,37 @@ export class ProfilePage implements OnInit {
         }
       })
     })
-   }
-
-  ngOnInit() {
   }
 
   loadHealthData() {
-    var stepOptions = {
-      startDate: new Date(new Date().getTime() - 24 * 60 * 60 * 1000),
-      endDate: new Date(),
-      unit: 'count',
-      sampleType: 'HKQuantityTypeIdentifierStepCount' 
+    /* Energy in Calories */
+    this.executeQuery('HKQuantityTypeIdentifierActiveEnergyBurned', 'kcal')
+
+    /* Exercise Time in Minutes */
+    this.executeQuery('HKQuantityTypeIdentifierAppleExerciseTime', 'min')
+
+    /* Stand Time in Hours */
+    this.executeQuery('HKQuantityTypeIdentifierAppleStandTime', 'min')
+  }
+
+  executeQuery(sampleType: string, unit: string) {
+    var startDate = new Date("January 01, 2021 00:00:00")
+    var endDate = new Date()
+    
+    var standOptions = {
+      startDate: startDate,
+      endDate: endDate,
+      unit: unit,
+      sampleType: sampleType,
+      aggregation: 'day'
     }
 
-    this.healthKit.querySampleType(stepOptions).then(data => {
-      this.stepCount = data;
-      console.log("The Step count is: ", data)
+    this.healthKit.querySampleTypeAggregated(standOptions).then(data => {
+      console.log(sampleType + " [Success] ", data)
+      this.summaries[sampleType] = data;
     }, error => {
-      console.log('Error getting Step Count: ', error);
-    });
-
-    this.healthKit.findWorkouts().then(data => {
-      this.workouts = data;
-    }, err => {
-      console.log('no workouts: ', err);
-      this.workouts = err;
-    });
-
-    var exerciseOptions = {
-      startDate: new Date(new Date().getTime() - 24 * 60 * 60 * 1000),
-      endDate: new Date(),
-      sampleType: 'HKQuantityTypeIdentifierAppleExerciseTime' 
-    }
-    this.healthKit.querySampleType(exerciseOptions).then(data => {
-      this.exerciseTime = data;
-      console.log("Exercise time is: ", data)
-    }, error => {
-      console.log('Error getting Exercise time: ', error);
+      console.log(sampleType + " [Error] ", error)
+      this.summaries[sampleType] = error;
     });
   }
 

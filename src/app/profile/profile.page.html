@@ -1,9 +1,18 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>profile</ion-title>
+    <ion-title>Activity Awards 2021</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <ion-item>
+    <ion-label>Active</ion-label>
+    <ion-label>Exercise</ion-label>
+    <ion-label>Stand</ion-label>
+  </ion-item>
+  <ion-item *ngFor="let energy of summaries.HKQuantityTypeIdentifierActiveEnergyBurned; let i = index;">
+    <ion-label>{{summaries.HKQuantityTypeIdentifierActiveEnergyBurned[i].quantity}} kcal</ion-label>
+    <ion-label>{{summaries.HKQuantityTypeIdentifierAppleExerciseTime[i].quantity}} minutes</ion-label>
+    <ion-label>{{summaries.HKQuantityTypeIdentifierAppleStandTime[i].quantity}} minutes</ion-label>
+  </ion-item>
 </ion-content>
