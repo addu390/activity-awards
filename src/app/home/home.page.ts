@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform } from '@ionic/angular';
-import { Router, ActivatedRoute } from '@angular/router';
-import { HealthKit, HealthKitOptions } from '@ionic-native/health-kit/ngx'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -9,42 +7,11 @@ import { HealthKit, HealthKitOptions } from '@ionic-native/health-kit/ngx'
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-  stepCount = 'No Data'
+
 
   constructor(
-    private platform: Platform,
-    private router: Router,
-    private healthKit: HealthKit) {
+    private router: Router) {
 
-      this.platform.ready().then(() => {
-        this.healthKit.available().then(available => {
-          if (available) {
-            var options: HealthKitOptions = {
-              readTypes: ['HKQuantityTypeIdentifierStepCount'],
-              writeTypes: []
-            }
-            this.healthKit.requestAuthorization(options).then(allow => {
-              this.loadHealthData();
-            });
-          }
-        })
-      })
-
-  }
-
-  loadHealthData() {
-    var stepOptions = {
-      startDate: new Date(new Date().getTime() - 24 * 60 * 60 * 1000),
-      endDate: new Date(),
-      unit: 'count',
-      sampleType: 'HKQuantityTypeIdentifierStepCount' 
-    }
-    this.healthKit.querySampleType(stepOptions).then(data => {
-      this.stepCount = data;
-      console.log("The Step count is: ", data)
-    }, error => {
-      console.log('Error getting Step Count: ', error);
-    });
   }
 
   register() {
