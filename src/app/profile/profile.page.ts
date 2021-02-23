@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HealthKit, HealthKitOptions } from '@ionic-native/health-kit/ngx'
 import { Platform } from '@ionic/angular';
-import { Activity } from '../models/account/activity';
-
+import { AlertController } from '@ionic/angular';
 
 
 @Component({
@@ -12,9 +11,11 @@ import { Activity } from '../models/account/activity';
 })
 export class ProfilePage implements OnInit {
   summaries = {}
+  currentGoal
 
   constructor(
     private healthKit: HealthKit,
+    private alertController: AlertController,
     private platform: Platform) {
    }
 
@@ -51,7 +52,10 @@ export class ProfilePage implements OnInit {
   }
 
   executeQuery(sampleType: string, unit: string) {
-    var startDate = new Date("January 01, 2021 00:00:00")
+    // First Day of the current year.
+    var startDate = new Date(new Date().getFullYear(), 0, 1);
+    
+    // Current Date (Today).
     var endDate = new Date()
     
     var standOptions = {
@@ -64,11 +68,40 @@ export class ProfilePage implements OnInit {
 
     this.healthKit.querySampleTypeAggregated(standOptions).then(data => {
       console.log(sampleType + " [Success] ", data)
-      this.summaries[sampleType] = data;
+      this.summaries[sampleType] = data.reverse();
     }, error => {
       console.log(sampleType + " [Error] ", error)
-      this.summaries[sampleType] = error;
+      this.summaries[sampleType] = error.reverse();
     });
+  }
+
+  calculateGoal() {
+    var predictedGoal = 200;
+
+    var summary = this.summaries["HKQuantityTypeIdentifierActiveEnergyBurned"]
+    var sum = 0;
+    
+    for(var i = 0; i < summary.length; i++) {
+      sum += parseInt( summary[i].quantity, 10); // Add the base
+    }
+    
+    var averageGoal = sum/summary.length;
+    if (averageGoal > 200) {
+      predictedGoal = averageGoal;
+    }
+    console.log("the goal is ", predictedGoal)
+    this.presentAlert("You Goal is " + predictedGoal + " Cal")
+  }
+
+  async presentAlert(message) {
+    const alert = await this.alertController.create({
+      header: 'New Goal Alert',
+      subHeader: 'Keep it going',
+      message: message,
+      buttons: ['OK']
+    });
+
+    await alert.present();
   }
 
 }
