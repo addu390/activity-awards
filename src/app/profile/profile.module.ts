@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AngularFireModule } from '@angular/fire';
+import { AngularFireFunctionsModule} from '@angular/fire/functions';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -15,7 +16,8 @@ import { ProfilePage } from './profile.page';
     FormsModule,
     IonicModule,
     AngularFireModule,
-    ProfilePageRoutingModule
+    ProfilePageRoutingModule,
+    AngularFireFunctionsModule
   ],
   declarations: [ProfilePage]
 })

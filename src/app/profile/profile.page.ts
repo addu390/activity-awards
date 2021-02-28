@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HealthKit, HealthKitOptions } from '@ionic-native/health-kit/ngx'
 import { Platform } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
+import { AngularFireFunctions } from '@angular/fire/functions';
 
 
 @Component({
@@ -14,6 +15,7 @@ export class ProfilePage implements OnInit {
   currentGoal
 
   constructor(
+    private functions: AngularFireFunctions,
     private healthKit: HealthKit,
     private alertController: AlertController,
     private platform: Platform) {
@@ -90,7 +92,7 @@ export class ProfilePage implements OnInit {
       predictedGoal = averageGoal;
     }
     console.log("the goal is ", predictedGoal)
-    this.presentAlert("You Goal is " + predictedGoal + " Cal")
+    this.presentAlert("Your Goal: Burn " + predictedGoal + " Calories everyday for the next 7 days")
   }
 
   async presentAlert(message) {
@@ -102,6 +104,24 @@ export class ProfilePage implements OnInit {
     });
 
     await alert.present();
+  }
+
+  // Testing Firebase Functions (Use HttpClient as an alternative).
+  callCloudFunction() {
+    // Use the function name from Firebase
+    const callable = this.functions.httpsCallable('fireBaseFunction');
+
+    // Create an Observable and pass Energy Burned to the function.
+    const obs = callable({ message: this.summaries["HKQuantityTypeIdentifierActiveEnergyBurned"] });
+
+    obs.subscribe(async response => {
+         const alert = await this.alertController.create({
+           header: `Time: ${response.date}`,
+           message: response.data,
+           buttons: ['OK']
+         });
+         await alert.present();
+    });
   }
 
 }
