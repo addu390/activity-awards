@@ -2,11 +2,13 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from "@angular/fire/auth";
 import { ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { User } from '../models/account/user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
+  currentUser: User = null;
 
   constructor(
     private fireauth: AngularFireAuth,
@@ -23,6 +25,7 @@ export class AuthenticationService {
       .then(res => {
         if (res.user) {
           console.log(res.user);
+          this.currentUser = res.user;
           this.router.navigate(['profile'])
         }
       })
@@ -36,6 +39,7 @@ export class AuthenticationService {
     .createUserWithEmailAndPassword(email, password)
       .then(res => {
         if (res.user) {
+          this.currentUser = res.user;
           console.log(res.user);
           this.router.navigate(['login'])
         }
