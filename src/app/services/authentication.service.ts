@@ -60,6 +60,15 @@ export class AuthenticationService {
       });
   }
 
+  logout() {
+    this.fireauth.signOut().then(data => {
+      console.log("Logout Successful")
+    })
+    .catch(err => {
+      console.log(`Error while logging out ${err}`)
+    })
+  }
+
   async presentToast(errorMessage: string) {
     const toast = await this.toast.create({
       message: errorMessage,

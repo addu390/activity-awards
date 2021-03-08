@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from "@angular/fire/auth";
+import { AuthenticationService } from './services/authentication.service';
 
 @Component({
   selector: 'app-root',
@@ -12,12 +13,15 @@ import { AngularFireAuth } from "@angular/fire/auth";
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
+  isAuthenticated = false;
+
   constructor(
     private platform: Platform,
     private router: Router,
     private splashScreen: SplashScreen,
     private fireauth: AngularFireAuth,
-    private statusBar: StatusBar
+    private statusBar: StatusBar,
+    private auth: AuthenticationService
   ) {
     this.initializeApp();
   }
@@ -26,6 +30,7 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.fireauth.onAuthStateChanged(user => {
         if (user) {
+          this.isAuthenticated = true;
           this.router.navigate(['/profile']);
           this.splashScreen.hide();
         }
@@ -36,5 +41,10 @@ export class AppComponent {
       });
       this.statusBar.styleDefault();
     });
+  }
+
+  logout() {
+    this.auth.logout();
+    this.isAuthenticated = false;
   }
 }

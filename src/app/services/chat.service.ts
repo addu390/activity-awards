@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { User } from '../models/account/user';
 import { AuthenticationService } from './authentication.service';
 import { switchMap, map } from 'rxjs/operators';
+import { Message } from '../models/account/message';
 
 @Injectable({
   providedIn: 'root'
