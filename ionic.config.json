@@ -1,0 +1,8 @@
+{
+  "name": "activity_awards",
+  "integrations": {
+    "capacitor": {},
+    "cordova": {}
+  },
+  "type": "angular"
+}

@@ -1,0 +1,10 @@
+#cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+  
+    ion-card {
+      margin: 5px 0;
+      width: calc(50% - 15px);
+    }
+  }

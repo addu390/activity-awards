@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button style='color: black'></ion-menu-button>
+    </ion-buttons>
+    <ion-title><img src="https://robin-fillactive.nyc3.digitaloceanspaces.com/images/relaismf2021/logo-fitspirit.png"/></ion-title>
+  </ion-toolbar>
+
+  <ion-row *ngIf="!isProfileGenerated">
+    <ion-col col-2 *ngFor="let theme of themes">
+      <ion-card (click)="selectTheme($event, theme.id)">
+        <img src="{{theme.image}}"/>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+
+  <ion-item>
+    <ion-label style='color: black;' class="ion-text-center"><b>Active</b></ion-label>
+    <ion-label style='color: black;' class="ion-text-center"><b>Exercise</b></ion-label>
+    <!-- <ion-label color="primary" class="ion-text-center">Stand</ion-label> -->
+  </ion-item>
+</ion-header>
+
+<ion-content>
+  
+  <ion-item *ngFor="let energy of summaries.HKQuantityTypeIdentifierActiveEnergyBurned; let i = index;">
+    <ion-label class="ion-text-center">{{summaries.HKQuantityTypeIdentifierActiveEnergyBurned[i].quantity}} kcal</ion-label>
+    <ion-label class="ion-text-center">{{summaries.HKQuantityTypeIdentifierAppleExerciseTime[i].quantity}} minutes</ion-label>
+    <!-- <ion-label class="ion-text-center">{{summaries.HKQuantityTypeIdentifierAppleStandTime[i].quantity}} minutes</ion-label> -->
+  </ion-item>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button expand="full" style="--background: linear-gradient(to right, #FF6D22 0%, #ed2939 100%)" (click)="calculateGoal()">Give me a goal</ion-button>
+  </ion-toolbar>
+</ion-footer>
