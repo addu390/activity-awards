@@ -1,4 +1,4 @@
-# Activity Awards (WIP)
+# Activity Awards - Morgan Stanley - Code to Give 
 
 ### How does the application work?
 
