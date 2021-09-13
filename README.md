@@ -9,8 +9,6 @@ An example of a challenge: Burn 250 calories and record 30 minutes of exercise t
 Furthermore, the challenge is presented to the user based on the prior data.
 After completing a challenge, the user is awarded a physical badge, similar to the virtual badge received in the "Awards" section of the Health app.
 
-An example of a physical badge: https://thenextbigproject.com/product/perfect-all-activity-week-activity-awards/
-
 The current version of the application is only for IOS users and ideal for Apple Watch users.
 
 ### Installation
