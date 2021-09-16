@@ -89,10 +89,10 @@ export class ProfilePage implements OnInit {
     }
 
     this.healthKit.querySampleTypeAggregated(standOptions).then(data => {
-      // console.log(sampleType + " [Success] ", data)
+      console.log(sampleType + " [Success] ", data)
       this.summaries[sampleType] = data.reverse();
     }, error => {
-      // console.log(sampleType + " [Error] ", error)
+      console.log(sampleType + " [Error] ", error)
       this.summaries[sampleType] = error.reverse();
     });
   }
