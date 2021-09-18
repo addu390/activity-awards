@@ -9,19 +9,23 @@
 </ion-header>
 
 <ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <!-- <p *ngIf="isQuestionsAnswered" style="text-align: center; margin-bottom: 0px;">Workout Recommendations</p> -->
   <ion-slides [options]="slideOpts" *ngIf="isQuestionsAnswered" pager="true">
     <ion-slide style="height: 320px;">
           <img src="https://pyblog.xyz/wp-content/uploads/2021/09/workout-week-1.png" alt="slide-1" />
     </ion-slide>
     <ion-slide style="height: 320px;">
-          <img src="https://pyblog.xyz/wp-content/uploads/2021/09/workout-week-2.png" alt="slide-2" />
+          <img src="https://pyblog.xyz/wp-content/uploads/2021/09/running-program-1.png" alt="slide-2" />
     </ion-slide>
     <ion-slide style="height: 320px;">
-      <img src="https://pyblog.xyz/wp-content/uploads/2021/09/workout-week-3.png" alt="slide-2" />
+      <img src="https://pyblog.xyz/wp-content/uploads/2021/09/nutrition-program-1.png" alt="slide-2" />
     </ion-slide>
     <ion-slide style="height: 320px;">
-      <img src="https://pyblog.xyz/wp-content/uploads/2021/09/workout-week-4.png" alt="slide-2" />
+      <img src="https://pyblog.xyz/wp-content/uploads/2021/09/represent-program-1.png" alt="slide-2" />
     </ion-slide>
   </ion-slides>
 
@@ -39,6 +43,7 @@
     </ion-item>
   </ion-row>
 
+  <ion-progress-bar value="0.2" *ngIf="isEnrolledProgram"></ion-progress-bar>
   <ion-item>
     <ion-label style='color: black;' class="ion-text-center"><b>Activity 🔥</b></ion-label>
     <ion-label color="light" style='color: black; font-size: 16px;' class="ion-text-center">{{displayDate}} {{currentDate | date:"MMM yyyy"}} <span style="background: lightgray; border-radius: 4px; font-size: 12px; padding: 1px 3px; color: white;"><b>  W  </b></span></ion-label>
@@ -55,9 +60,10 @@
   </ion-item>
 </ion-content>
 
-<ion-footer>
+<ion-footer *ngIf="isQuestionsAnswered">
   <ion-toolbar>
     <!-- <ion-button expand="full" style="--background: linear-gradient(to right, #FF6D22 0%, #ed2939 100%)" (click)="calculateGoal()">Give me a goal</ion-button> -->
-    <ion-button *ngIf="isQuestionsAnswered" expand="full" style="--background:#ed2939" (click)="calculateGoal()">Give me a workout</ion-button>
+    <ion-button *ngIf="isQuestionsAnswered && !isEnrolledProgram" expand="full" style="--background:#ed2939" (click)="calculateGoal()">Give me a workout</ion-button>
+    <ion-button *ngIf="isEnrolledProgram" expand="full" style="--background:#ed2939" (click)="calculateGoal()">Start Workout 💪</ion-button>
   </ion-toolbar>
 </ion-footer>

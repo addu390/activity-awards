@@ -11,11 +11,25 @@ export class JourneyService {
   constructor(public firestore: AngularFirestore,
     private auth: AuthenticationService) { }
 
-    answerQuestion(question_id: string, answer: number): Promise<void> {
+  answerQuestion(question_id: string, answer: number): Promise<void> {
     const id = this.auth.currentUser.uid;
     return this.firestore.doc(`users/${id}/questions/${question_id}`).set({
       answer: answer
     });
+  }
+
+  startProgram(goal: number): Promise<void> {
+    const id = this.auth.currentUser.uid;
+    let uuid = 1;
+    return this.firestore.doc(`users/${id}/goals/${uuid}`).set({
+      goal: goal,
+      startDate: new Date()
+    });
+  }
+
+  getProgram() {
+    const id = this.auth.currentUser.uid;
+    return this.firestore.collection(`users/${id}/goals`).snapshotChanges()
   }
 
   getQuestions() {

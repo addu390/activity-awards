@@ -6,15 +6,34 @@
     <ion-title><img src="https://robin-fillactive.nyc3.digitaloceanspaces.com/images/relaismf2021/logo-fitspirit.png"/></ion-title>
   </ion-toolbar>
 
-</ion-header>
-
-
-<ion-content>
   <ion-item>
-    <ion-select style="min-width: 100%;" multiple="true" [value]="['strength_training']">
+    <ion-select style="min-width: 100%;" multiple="true" [(ngModel)]="workouts">
       <ion-select-option value="strength_training">Cardio/ Strength training</ion-select-option>
       <ion-select-option value="yoga">Yoga</ion-select-option>
       <ion-select-option value="dance">Dance</ion-select-option>
     </ion-select>
   </ion-item>
+
+</ion-header>
+
+
+<ion-content>
+  <div *ngIf="workouts.indexOf('dance') > -1 || workouts?.length == 0 " >
+    <img src="https://pyblog.xyz/wp-content/uploads/2021/09/dance-week-1.png" alt="slide-1" />
+    <img src="https://pyblog.xyz/wp-content/uploads/2021/09/dance-week-2.png" alt="slide-2" />
+    <img src="https://pyblog.xyz/wp-content/uploads/2021/09/dance-week-3.png" alt="slide-2" />
+    <img src="https://pyblog.xyz/wp-content/uploads/2021/09/dance-week-4.png" alt="slide-2" />
+  </div>
+  <div *ngIf="workouts.indexOf('strength_training') > -1 || workouts?.length == 0" >
+    <img src="https://pyblog.xyz/wp-content/uploads/2021/09/workout-week-1.png" alt="slide-1" />
+    <img src="https://pyblog.xyz/wp-content/uploads/2021/09/workout-week-2.png" alt="slide-2" />
+    <img src="https://pyblog.xyz/wp-content/uploads/2021/09/workout-week-3.png" alt="slide-2" />
+    <img src="https://pyblog.xyz/wp-content/uploads/2021/09/workout-week-4.png" alt="slide-2" />
+  </div>
+  <div *ngIf="workouts.indexOf('yoga') > -1 || workouts?.length == 0 " >
+    <img src="https://pyblog.xyz/wp-content/uploads/2021/09/yoga-week-1.png" alt="slide-1" />
+    <img src="https://pyblog.xyz/wp-content/uploads/2021/09/yoga-week-2.png" alt="slide-2" />
+    <img src="https://pyblog.xyz/wp-content/uploads/2021/09/yoga-week-3.png" alt="slide-2" />
+    <img src="https://pyblog.xyz/wp-content/uploads/2021/09/yoga-week-4.png" alt="slide-2" />
+  </div>
 </ion-content>

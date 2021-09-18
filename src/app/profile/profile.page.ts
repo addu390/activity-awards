@@ -3,6 +3,8 @@ import { HealthKit, HealthKitOptions } from '@ionic-native/health-kit/ngx'
 import { Platform } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
 import { JourneyService } from '../services/journey.service'
+import { LoadingController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -12,10 +14,13 @@ import { JourneyService } from '../services/journey.service'
 })
 export class ProfilePage implements OnInit {
   questions_length = 0;
+  predictedGoal = 250;
   questions: {[id:number]: {images: []; options: []}}[];
   question: {[id:number]: {images: []; options: []}};
   isQuestionsAnswered = false;
+  isEnrolledProgram = false;
   answers: {answer:string}[];
+  goals: {goal:number, start:Date}[];
   displayDate: string;
   currentDate: Date;
   
@@ -24,10 +29,13 @@ export class ProfilePage implements OnInit {
 
   slideOpts = {
     initialSlide: 1,
+    autoplay: true,
     speed: 400
   };
 
   constructor(
+    private router: Router,
+    public loadingController: LoadingController,
     private changeDetection: ChangeDetectorRef,
     private journeyService: JourneyService,
     private healthKit: HealthKit,
@@ -54,6 +62,15 @@ export class ProfilePage implements OnInit {
           this.isQuestionsAnswered = true;
         }
       })
+
+      this.journeyService.getProgram().subscribe((data) => {
+        this.goals = data.map(e => {
+          return {goal: e.payload.doc.data()["goal"], start: e.payload.doc.data()["startDate"]}
+        })
+        if (this.goals.length > 0) {
+          this.isEnrolledProgram = true;
+        }
+      })
       
       this.healthKit.available().then(available => {
         if (available) {
@@ -73,6 +90,17 @@ export class ProfilePage implements OnInit {
       })
 
     })
+  }
+
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      message: 'Please wait...',
+      duration: 700
+    });
+    await loading.present();
+
+    const { role, data } = await loading.onDidDismiss();
+    console.log('Loading dismissed!');
   }
 
   answerQuestion(event, question_id: string, answer: number) {
@@ -117,32 +145,60 @@ export class ProfilePage implements OnInit {
   }
 
   calculateGoal() {
-
-    var predictedGoal = 200;
-
-    var summary = this.summaries["HKQuantityTypeIdentifierActiveEnergyBurned"]
-    var sum = 0;
-    
-    for(var i = 0; i < summary.length; i++) {
-      sum += parseInt( summary[i].quantity, 10); // Add the base
+    if (this.isEnrolledProgram) {
+      this.router.navigate(['/workout']);
+      return;
     }
-    
-    var averageGoal = sum/summary.length;
-    if (averageGoal > 200) {
-      predictedGoal = averageGoal;
-    }
-    this.presentAlert("<h6>Your Goal: ~Burn " + predictedGoal + " Calories everyday for the next 7 days</h6> <h6> Choose a strength training workout from the options you can find at Menu > workouts or start with: </h6> <br> <img style='height: 160px;' src='https://pyblog.xyz/wp-content/uploads/2021/09/strength-traning.png'/>")
+    this.presentLoading().then(() => {
+      this.predictedGoal = 250;
+
+      var summary = this.summaries["HKQuantityTypeIdentifierActiveEnergyBurned"]
+      var sum = 0;
+      
+      for(var i = 0; i < 8; i++) {
+        sum += parseInt( summary[i].quantity, 10); // Add the base
+      }
+      console.log(sum)
+      
+      var averageGoal = sum/7;
+      if (averageGoal > 250) {
+        this.predictedGoal = averageGoal;
+      }
+      this.presentAlert("<h6>Your Goal: Burn ~" + Math.round(this.predictedGoal / 50) * 50 + " Calories everyday for the next 7 days</h6> <h6> Choose a strength training workout from the options you can find at Menu > Workouts </h6> ")
+    });
   }
 
   async presentAlert(message) {
     const alert = await this.alertController.create({
-      header: 'Workout',
-      // subHeader: 'Keep it going',
+      cssClass: 'alert-class',
+      // header: 'Workout',
       message: message,
-      buttons: ["Let's do this! 🚀"]
+      buttons: [
+        {
+          text: 'Later',
+          handler: () => {
+            console.log('Confirm Cancel');
+          }
+        }, {
+          text: "Let's do this 🚀",
+          handler: (alertData) => { //takes the data 
+            this.journeyService.startProgram(this.predictedGoal);
+            this.router.navigate(['/workout']);
+        }
+        }
+      ]
     });
 
     await alert.present();
+  }
+
+  doRefresh(event) {
+    console.log('Begin async operation');
+
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      event.target.complete();
+    }, 2000);
   }
 
 }
