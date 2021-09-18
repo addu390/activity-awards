@@ -11,16 +11,20 @@ export class JourneyService {
   constructor(public firestore: AngularFirestore,
     private auth: AuthenticationService) { }
 
-  createProfile(theme: string): Promise<void> {
+    answerQuestion(question_id: string, answer: number): Promise<void> {
     const id = this.auth.currentUser.uid;
-    return this.firestore.doc(`profile/${id}`).set({
-      id,
-      theme,
+    return this.firestore.doc(`users/${id}/questions/${question_id}`).set({
+      answer: answer
     });
   }
 
-  getThemes() {
-    return this.firestore.collection("themes").snapshotChanges()
+  getQuestions() {
+    return this.firestore.collection("questions").snapshotChanges()
+  }
+
+  getAnswers() {
+    const id = this.auth.currentUser.uid;
+    return this.firestore.collection(`users/${id}/questions`).snapshotChanges()
   }
 
   getProfile() {

@@ -6,29 +6,50 @@
     <ion-title><img src="https://robin-fillactive.nyc3.digitaloceanspaces.com/images/relaismf2021/logo-fitspirit.png"/></ion-title>
   </ion-toolbar>
 
-  <h3 *ngIf="!isProfileGenerated" style="padding-top: 10px; margin: 0px; text-align: center;">Which one would you prefer?</h3>
-  <p *ngIf="!isProfileGenerated" style="padding: 0px; margin: 0px; text-align: center;">Don't worry! you can always change it later</p>
-  <ion-row *ngIf="!isProfileGenerated">
-    <ion-col col-2 *ngFor="let theme of themes">
-      <ion-card (click)="selectTheme($event, theme.id)" style="margin-top: 10px;">
-        <img style="height: 180px;;" src="{{theme.image}}"/>
-        <p style="text-align: center; color: black">{{theme.name}}</p>
-      </ion-card>
-    </ion-col>
-  </ion-row>
-
-  <ion-item>
-    <ion-label style='color: black;' class="ion-text-center"><b>Active</b></ion-label>
-    <ion-label style='color: black;' class="ion-text-center"><b>Date</b></ion-label>
-    <!-- <ion-label color="primary" class="ion-text-center">Stand</ion-label> -->
-  </ion-item>
 </ion-header>
 
 <ion-content>
+  <!-- <p *ngIf="isQuestionsAnswered" style="text-align: center; margin-bottom: 0px;">Workout Recommendations</p> -->
+  <ion-slides [options]="slideOpts" *ngIf="isQuestionsAnswered" pager="true">
+    <ion-slide style="height: 320px;">
+          <img src="https://pyblog.xyz/wp-content/uploads/2021/09/workout-week-1.png" alt="slide-1" />
+    </ion-slide>
+    <ion-slide style="height: 320px;">
+          <img src="https://pyblog.xyz/wp-content/uploads/2021/09/workout-week-2.png" alt="slide-2" />
+    </ion-slide>
+    <ion-slide style="height: 320px;">
+      <img src="https://pyblog.xyz/wp-content/uploads/2021/09/workout-week-3.png" alt="slide-2" />
+    </ion-slide>
+    <ion-slide style="height: 320px;">
+      <img src="https://pyblog.xyz/wp-content/uploads/2021/09/workout-week-4.png" alt="slide-2" />
+    </ion-slide>
+  </ion-slides>
+
+  <hr>
+  <h3 *ngIf="questions?.length > 0 && !isQuestionsAnswered" style="padding-top: 10px; margin: 0px; text-align: center;">Which one would you prefer?</h3>
+  <p *ngIf="questions?.length > 0 && !isQuestionsAnswered" style="padding: 0px; margin: 0px; text-align: center;">Don't worry! you can always change it later</p>
+  <ion-row *ngIf="questions?.length > 0 && !isQuestionsAnswered">
+    <ion-item *ngFor="let question of questions | slice:0:1; first as isFirst">
+      <ion-col col-2 *ngFor="let image of question.options; let k = index;">
+      <ion-card (click)="answerQuestion($event, question.id, k)" style="margin-top: 10px;">
+        <img style="height: 160px;" src="{{question.images[k]}}"/>
+        <p style="text-align: center; color: black">{{question.options[k]}}</p>
+      </ion-card>
+    </ion-col>
+    </ion-item>
+  </ion-row>
+
+  <ion-item>
+    <ion-label style='color: black;' class="ion-text-center"><b>Activity 🔥</b></ion-label>
+    <ion-label color="light" style='color: black; font-size: 16px;' class="ion-text-center">{{displayDate}} {{currentDate | date:"MMM yyyy"}} <span style="background: lightgray; border-radius: 4px; font-size: 12px; padding: 1px 3px; color: white;"><b>  W  </b></span></ion-label>
+    <!-- <ion-label color="primary" class="ion-text-center">Stand</ion-label> -->
+  </ion-item>
+
+<!-- <ion-content> -->
   
-  <ion-item *ngFor="let energy of summaries.HKQuantityTypeIdentifierActiveEnergyBurned; let i = index;">
+  <ion-item *ngFor="let energy of summaries.HKQuantityTypeIdentifierActiveEnergyBurned | slice:0:7; let i = index;">
     <ion-label class="ion-text-center">{{summaries.HKQuantityTypeIdentifierActiveEnergyBurned[i].quantity | number : '1.2-2' }} kcal</ion-label>
-    <ion-label class="ion-text-center">{{summaries.HKQuantityTypeIdentifierActiveEnergyBurned[i].startDate | date:"dd MMM yy" }}</ion-label>
+    <ion-label class="ion-text-center">{{summaries.HKQuantityTypeIdentifierActiveEnergyBurned[i].startDate | date:"EEEE" }}</ion-label>
     <!-- <ion-label class="ion-text-center">{{summaries.HKQuantityTypeIdentifierAppleExerciseTime[i].quantity}} minutes</ion-label> -->
     <!-- <ion-label class="ion-text-center">{{summaries.HKQuantityTypeIdentifierAppleStandTime[i].quantity}} minutes</ion-label> -->
   </ion-item>
@@ -37,6 +58,6 @@
 <ion-footer>
   <ion-toolbar>
     <!-- <ion-button expand="full" style="--background: linear-gradient(to right, #FF6D22 0%, #ed2939 100%)" (click)="calculateGoal()">Give me a goal</ion-button> -->
-    <ion-button expand="full" style="--background:#ed2939" (click)="calculateGoal()">Give me a goal</ion-button>
+    <ion-button *ngIf="isQuestionsAnswered" expand="full" style="--background:#ed2939" (click)="calculateGoal()">Give me a workout</ion-button>
   </ion-toolbar>
 </ion-footer>
