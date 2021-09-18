@@ -1,10 +1,20 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>workout</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button style='color: black'></ion-menu-button>
+    </ion-buttons>
+    <ion-title><img src="https://robin-fillactive.nyc3.digitaloceanspaces.com/images/relaismf2021/logo-fitspirit.png"/></ion-title>
   </ion-toolbar>
+
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <iframe class="webPage" frameborder="0" name="eventsPage" [src]="safeUrl" allowfullscreen>
-  </iframe>
+
+<ion-content>
+  <ion-item>
+    <ion-select style="min-width: 100%;" multiple="true" [value]="['strength_training']">
+      <ion-select-option value="strength_training">Cardio/ Strength training</ion-select-option>
+      <ion-select-option value="yoga">Yoga</ion-select-option>
+      <ion-select-option value="dance">Dance</ion-select-option>
+    </ion-select>
+  </ion-item>
 </ion-content>
