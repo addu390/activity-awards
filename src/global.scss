@@ -32,3 +32,16 @@
 ion-button {
     border-radius: 2px !important;
 }
+
+
+    .pin:after {
+        content: " €";
+    }
+
+
+    ion-range{
+        --knob-background: #ed2939;
+        --bar-height: 5px;
+        --knob-size: 0px;
+        --bar-border-radius: 20px;
+    }

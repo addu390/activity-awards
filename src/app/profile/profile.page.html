@@ -43,7 +43,13 @@
     </ion-item>
   </ion-row>
 
-  <ion-progress-bar value="0.2" *ngIf="isEnrolledProgram"></ion-progress-bar>
+  <!-- <ion-progress-bar value="0.14" *ngIf="isEnrolledProgram"></ion-progress-bar> -->
+  <ion-item *ngIf="isEnrolledProgram">
+    <ion-range id="euroRange" min="1" max="8" color="primary" [value]="1.5" steps="1">
+      <ion-label slot="start">Day 1</ion-label>
+      <ion-label slot="end"><p style="font-size: 30px; opacity: 60%;">🎁</p><span style="font-size: 16px; text-align: center;">Day 7</span></ion-label>
+    </ion-range>
+  </ion-item>
   <ion-item>
     <ion-label style='color: black;' class="ion-text-center"><b>Activity 🔥</b></ion-label>
     <ion-label color="light" style='color: black; font-size: 16px;' class="ion-text-center">{{displayDate}} {{currentDate | date:"MMM yyyy"}} <span style="background: lightgray; border-radius: 4px; font-size: 12px; padding: 1px 3px; color: white;"><b>  W  </b></span></ion-label>
