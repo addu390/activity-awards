@@ -146,7 +146,7 @@ export class ProfilePage implements OnInit {
 
   calculateGoal() {
     if (this.isEnrolledProgram) {
-      this.router.navigate(['/workout']);
+      this.router.navigate(['/favourites']);
       return;
     }
     this.presentLoading().then(() => {
@@ -183,7 +183,7 @@ export class ProfilePage implements OnInit {
           text: "Let's do this 🚀",
           handler: (alertData) => { //takes the data 
             this.journeyService.startProgram(this.predictedGoal);
-            this.router.navigate(['/workout']);
+            this.router.navigate(['/favourites']);
         }
         }
       ]

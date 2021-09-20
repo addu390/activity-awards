@@ -31,6 +31,10 @@ const routes: Routes = [
     path: 'workout',
     loadChildren: () => import('./workout/workout.module').then( m => m.WorkoutPageModule)
   },
+  {
+    path: 'favourites',
+    loadChildren: () => import('./favourites/favourites.module').then( m => m.FavouritesPageModule)
+  },
 ];
 
 @NgModule({
