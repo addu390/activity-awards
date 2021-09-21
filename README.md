@@ -1,13 +1,15 @@
 # Activity Awards - Morgan Stanley - Code to Give 
 
-### How does the application work?
+## The Issue
+It is easy for an individual to assume that lack of activity is strictly a lack of discipline and failure of willpower. However, tackling adolescent inactivity with negative motivation is a misguided approach that can often worsen the situation. A self-paced, rewarding, and informative track and platform to reverse the trend of increasing physical inactivity in teenage girls is the way to fix it!
 
-After installing the application on your mobile device, with access to Apple Health Kit (Exercise Time, Step Count, Energy Burned, and Stand Time), the user can accept a challenge. 
+## Our Magic Solution
+"Answer a few questions and participate in the quiz, to get to know you better. Then, get a customized track, which is fun, interactive, and self-paced. The best part? Get rewards, goodies, and badges for achieving every milestone."
 
-An example of a challenge: Burn 250 calories and record 30 minutes of exercise time for seven consecutive days in the next two weeks.
-
-Furthermore, the challenge is presented to the user based on the prior data.
-After completing a challenge, the user is awarded a physical badge, similar to the virtual badge received in the "Awards" section of the Health app.
+How it works?
+- Answer a few questions: After installing the application on your mobile device, register, login, answer a few questions about yourself, and participate in a quiz; there are no wrong answers!
+- Track, Track and Track: Let us track your fitness activity or add it yourself; every baby step towards your goal COUNTS. Progress is addictive, and once you get the hang of it, there's no going back.
+- You deserve every bit of appreciation: Just like how Ash gets a badge for winning a pokemon gym battle, you get one too, just that, our battles are a lot more fun.
 
 The current version of the application is only for IOS users and ideal for Apple Watch users.
 
