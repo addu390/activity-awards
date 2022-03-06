@@ -1,4 +1,9 @@
 # Activity Awards - Morgan Stanley - Code to Give Hackathon
+
+Note: The repository is deprecated ⛔️ and was built for the Morgan Stanely - Code to Give Hackathon in less than a day.
+
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
+
 ![Activity Awards Poster](static-images/poster-3.jpeg)
 
 ## The Issue
@@ -22,4 +27,4 @@ The current version of the application is only for IOS users and ideal for Apple
 - Set-up firebase for Auth and add firebaseConfig to environment.ts
 - ionic capacitor run ios --livereload 
 
-*Please note that Activity Awards is a Prototype and features mentioned may not be fully implemented or work as expected (development time: 2 days).*
+*Please note that Activity Awards is a Prototype and features mentioned may not be fully implemented or work as expected.*
